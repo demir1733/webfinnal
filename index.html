@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakasNokta - Modern Takas Platformu</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+import { getFirestore, collection, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+
+        // Firebase yapılandırması
+const firebaseConfig = {
+    apiKey: "AIzaSyCws1XL1jXNn4Dr7mjphiGqkh1rITlz8Mc",
+    authDomain: "web-takas-projesi.firebaseapp.com",
+    projectId: "web-takas-projesi",
+    storageBucket: "web-takas-projesi.firebasestorage.app",
+    messagingSenderId: "972682638359",
+    appId: "1:972682638359:web:1cf503380e16d427c4d852"
+};
+
+// Firebase'i başlat
+try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    // Register form submit handler
+    document.getElementById('registerForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        try {
+            const username = document.getElementById('newUsername').value;
+            if (!username) throw new Error('Kullanıcı adı gerekli');
+            
+            const userRef = doc(collection(db, 'users'), username);
+            
+            await setDoc(userRef, {
+                username: username,
+                password: document.getElementById('newPassword').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                tcNumber: document.getElementById('tcNumber').value,
+                address: document.getElementById('address').value,
+                createdAt: new Date()
+            });
+
+            // Başarılı kayıt sonrası
+            document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('successModal').style.display = 'block';
+            document.getElementById('registerForm').reset();
+            updateAuthUI(true, username); // UI güncelle
+
+            // 2 saniye sonra success modalı kapat
+            setTimeout(() => {
+                document.getElementById('successModal').style.display = 'none';
+            }, 2000);
+
+        } catch (error) {
+            console.error('Kayıt hatası:', error);
+            alert(`Kayıt sırasında bir hata oluştu: ${error.message}`);
+            return false;
+        }
+    });
+
+    // Login form submit handler
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        try {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Firestore'dan kullanıcı bilgilerini al
+            const userRef = doc(db, 'users', username);
+            const userDoc = await getDoc(userRef);
+
+            if (userDoc.exists() && userDoc.data().password === password) {
+                // Giriş başarılı
+                alert('Giriş işlemi başarılı! Hoş geldiniz.');
+                document.getElementById('loginModal').style.display = 'none'; // Modal'ı kapat
+                document.getElementById('loginForm').reset(); // Formu temizle
+                updateAuthUI(true, username); // UI güncelle
+            } else {
+                // Giriş başarısız
+                alert('Giriş başarısız! Kullanıcı adı veya şifre hatalı.');
+                document.getElementById('password').value = ''; // Şifreyi temizle
+            }
+        } catch (error) {
+            console.error('Giriş hatası:', error);
+            alert('Giriş sırasında bir hata oluştu!');
+            document.getElementById('loginForm').reset(); // Hata durumunda formu temizle
+        }
+    });
+
+} catch (error) {
+    console.error('Firebase başlatma hatası:', error);
+    alert('Sistem şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.');
+}
+    </script>
+</head>
+<body>
+    <!-- Modern Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">TakasNokta</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Ana Sayfa</a>
+                <a href="takaskategoriler.html" class="nav-link" onclick="categories()">Kategoriler</a>
+                <a href="kesfet.html" class="nav-link">Keşfet</a>
+                <div class="search-container">
+                    <input type="text" placeholder="Ürün veya kategori ara..." name="search">
+                    <button type="button" onclick="searchItem()">Ara</button>
+                </div>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-outline" onclick="openLoginForm()">Giriş Yap</a>
+                <!-- Üye Ol Butonu -->
+                <a href="#" class="btn btn-primary" onclick="openRegisterForm()">Üye Ol</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                TakasNokta ile Eşyalarınıza Yeni Bir Hayat Verin
+            </h1>
+            <p>TakasNokta ile eşyalarınıza değer katın! Türkiyenin en güvenilir takas noktasında binlerce ürünü keşfedin.</p>
+            <a href="#" class="btn btn-primary" onclick="openRegisterForm()">Hemen üye ol</a>
+        </div>
+    </section>
+
+    <!-- Kayıt Formu Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRegisterForm()">&times;</span>
+            <h2>Üye Ol</h2>
+            <form id="registerForm">
+                <label for="newUsername">Kullanıcı Adı:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+    
+                <label for="newPassword">Şifre:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+    
+                <label for="confirmPassword">Şifre (Tekrar):</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                <label for="phoneNumber">Telefon Numarası:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" required>
+
+                <label for="tcNumber">TC Kimlik Numarası:</label>
+                <input type="text" id="tcNumber" name="tcNumber" required>
+
+                <label for="address">Adres:</label>
+                <textarea id="address" name="address" required></textarea>
+    
+                <button type="submit" class="btn btn-primary">Üye Ol</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <!-- Giriş Formu Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginForm()">&times;</span>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <h2>Giriş Yap</h2>
+            </div>
+            
+            <form id="loginForm">
+                <label for="username">Kullanıcı Adı:</label>
+                <input type="text" id="username" name="username" required> <br>
+                <label for="password">Şifre:</label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit" class="btn btn-primary">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSuccessModal()">&times;</span>
+            <h2>Kayıt Başarılı!</h2>
+            <p>Üyeliğiniz başarıyla oluşturuldu.</p>
+        </div>
+    </div>
+
+    <!-- Modern Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>TakasNokta</h3>
+                <p>Güvenli ve kolay takas deneyimi için doğru adres. Binlerce kullanıcı, sınırsız takas imkanı.</p>
+                <div class="social-links">
+                    
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Keşfet</h3>
+                <div class="footer-links">
+                    <a href="#">Popüler Takaslar</a>
+                    <a href="#">Yeni İlanlar</a>
+                    <a href="#">Kategoriler</a>
+                    
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Destek</h3>
+                <div class="footer-links">
+                    <a href="sıkSorulanSoru.html">Sıkça Sorulan Sorular</a>
+                    <a href="nasılcalısır.html">Nasıl Çalışır?</a>
+                    <a href="iletisim.html">İletişim</a>
+                    
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <div class="footer-links">
+                    <a href="#">Kullanım Şartları</a>
+                    <a href="#">Gizlilik Politikası</a>
+                    <a href="#">KVKK</a>
+                    <a href="#">Çerez Politikası</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 TakasNokta. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+    <script>
+        function howItWorks() {
+            // Nasıl çalışır sayfasına yönlendirme
+            window.location.href = '/nasil-calisir';
+        }
+        
+        function categories() {
+            // Kategoriler sayfasına yönlendirme
+            window.location.href = '/kategoriler';
+        }
+
+        function explore() {
+            // Keşfet sayfasına yönlendirme
+            window.location.href = '/kesfet';
+        }
+
+        function openRegisterForm() {
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        function closeRegisterForm() {
+            document.getElementById('registerModal').style.display = 'none';
+        }
+
+        function openSuccessModal() {
+            document.getElementById('successModal').style.display = 'block';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        function openLoginForm() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginForm() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check user credentials
+            db.collection('users').doc(username).get().then((doc) => {
+                if (doc.exists && doc.data().password === password) {
+                    alert('Giriş yapıldı!');
+                    closeLoginForm();
+                } else {
+                    alert('Kullanıcı adı veya şifre yanlış!');
+                }
+            }).catch((error) => {
+                console.error('Error logging in: ', error);
+            });
+        });
+
+        // Auth buttons update function ekle
+        function updateAuthUI(isLoggedIn, username = '') {
+    const authButtons = document.querySelector('.auth-buttons');
+    if (isLoggedIn) {
+        authButtons.innerHTML = `
+            <div class="profile-section">
+                <a href="urunEkle.html" class="btn btn-primary">Ürün Ekle</a>
+                <img src="assets/yusuf.png" alt="Profile" class="profile-pic">
+                <span style="margin-right: 10px;">${username}</span>
+                <a href="#" class="btn btn-outline" onclick="logout()">Çıkış Yap</a>
+            </div>
+        `;
+    } else {
+        authButtons.innerHTML = `
+            <a href="#" class="btn btn-outline" onclick="openLoginForm()">Giriş Yap</a>
+            <a href="#" class="btn btn-primary" onclick="openRegisterForm()">Üye Ol</a>
+        `;
+    }
+}
+
+        // Logout function ekle
+        function logout() {
+            updateAuthUI(false);
+            alert('Çıkış yapıldı!');
+        }
+    
+    
+    </script>
+</body>
+</html>

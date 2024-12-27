@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Ekle - TakasNokta</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .product-form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .submit-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">TakasNokta</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="takaskategoriler.html" class="nav-link">Kategoriler</a>
+                <a href="kesfet.html" class="nav-link">Keşfet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-form-container">
+            <h2>Yeni Ürün Ekle</h2>
+            <form id="productForm" class="product-form">
+                <div class="form-group">
+                    <label for="productName">Ürün Adı</label>
+                    <input type="text" id="productName" name="productName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Ürün Açıklaması</label>
+                    <textarea id="productDescription" name="productDescription" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice">Fiyat (TL)</label>
+                    <input type="number" id="productPrice" name="productPrice" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImage">Ürün Fotoğrafı</label>
+                    <input type="file" id="productImage" name="productImage" accept="image/*" required>
+                    <div class="image-preview" id="imagePreview">
+                        <span>Fotoğraf önizlemesi</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">Ürünü Ekle</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Fotoğraf önizleme
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Ürün önizleme">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form gönderme
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const file = document.getElementById('productImage').files[0];
+            
+            // Create a file path in assets folder
+            const imagePath = 'assets/' + file.name;
+            
+            const productData = {
+                name: formData.get('productName'),
+                description: formData.get('productDescription'),
+                price: formData.get('productPrice'),
+                image: imagePath // Store the path instead of the file object
+            };
+
+            // Save to localStorage
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.push(productData);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            // Redirect to discover page
+            window.location.href = 'kesfet.html';
+        });
+    </script>
+</body>
+</html>

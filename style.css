@@ -1,0 +1,528 @@
+/* Modern Renk Paleti ve Değişkenler */
+:root {
+    --primary: #7C3AED;
+    --primary-dark: #6D28D9;
+    --secondary: #10B981;
+    --accent: #F59E0B;
+    --dark: #1F2937;
+    --light: #F3F4F6;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.profile-section {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+body {
+    background-color: var(--gray-50);
+}
+
+/* Modern Header Tasarımı */
+.header {
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Arama Çubuğu Stili */
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-container input[type="text"] {
+    padding: 10px 15px;
+    border: 2px solid var(--primary);
+    border-radius: 25px;
+    outline: none;
+    font-size: 16px;
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.search-container button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: var(--accent);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+
+.header-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logo-icon {
+    background: white;
+    color: var(--primary);
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--gray-100);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-link.active {
+    background: white;
+    color: var(--primary);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: white;
+    color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: var(--gray-100);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: rgba(221, 221, 221, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('/api/placeholder/1920/600');
+    background-size: cover;
+    background-position: center;
+    padding: 8rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--gray-200);
+}
+
+/* Modern Footer */
+.footer {
+    background: var(--gray-900);
+    color: var(--gray-300);
+    padding: 4rem 2rem;
+    margin-top: 4rem;
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 4rem;
+}
+
+.footer-section h3 {
+    color: white;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-links a {
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    background: var(--gray-800);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--gray-800);
+    margin-top: 3rem;
+    padding-top: 2rem;
+    text-align: center;
+    color: var(--gray-500);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .auth-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Modal Stilleri */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #e7e7e7;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.hero {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 8rem 2rem;
+    text-align: center;
+    color: white;
+    height: 100vh; /* Tam ekran yüksekliği */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/arkaplan2.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.97); /* Parlaklık azaltılır (0.6 = %60) */
+    z-index: -1; /* Arka plana gönder */
+}
+
+.hero * {
+    position: relative; /* İçerik öne çıkar */
+    z-index: 1;
+}
+
+.hero-content{
+    color:rgb(244, 244, 244);
+}
+.containerSoru{
+    
+        display: flex; /* Esnek düzenleme */
+        flex-direction: column; /* Elemanları dikey hizala */
+        justify-content: center; /* Dikey ortala */
+        align-items: center; /* Yatay ortala */
+        min-height: 100vh; /* Tam sayfa yüksekliği */
+        text-align: center; /* Metinleri ortala */
+        margin: 0 auto; /* Otomatik yatay boşluk */
+        line-height: 1.6; /* Satır aralığı */
+    
+    
+}
+.containerSoru i {
+    display: block;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc; /*çizgi için */
+}
+
+.containerSoru i:last-child {
+    border-bottom: none; /* Son eleman için çizgisin kaldırıyor */
+}
+
+.containerCalisir{
+    
+    display: flex; /* Esnek düzenleme */
+    flex-direction: column; /* Elemanları dikey hizala */
+    justify-content:center;
+    align-items: center; /* Yatay ortala */
+    min-height: 100vh; /* Tam sayfa yüksekliği */
+    text-align: center; /* Metinleri ortala */
+    margin: 0 auto; /* Otomatik yatay boşluk */
+    line-height: 1.6; /* Satır aralığı */
+    background-color: #666666;
+
+
+}
+.containerCalisir i {
+display: block;
+margin-bottom: 10px;
+padding-bottom: 10px;
+border-bottom: 1px solid #ccc; /*çizgi için */
+}
+
+.containerCalisir i:last-child {
+border-bottom: none; /* Son eleman için çizgisin kaldırıyor */
+}
+
+.containeriletisim i {
+    display: block;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc; /*çizgi için */
+    }
+    
+    .containerCalisir i:last-child {
+    border-bottom: none; /* Son eleman için çizgisin kaldırıyor */
+    }
+    /* Giriş Formu Stil */
+#loginForm {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#loginForm label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#loginForm input[type="text"]:focus,
+#loginForm input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#loginForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm button:hover {
+    background-color: #0056b3;
+}
+
+/**********************************************************/
+
+#registerForm {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#registerForm label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+#registerForm input[type="text"],
+#registerForm input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#registerForm input[type="text"]:focus,
+#registerForm input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#registerForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#registerForm button:hover {
+    background-color: #0056b3;
+}
